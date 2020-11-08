@@ -2,6 +2,7 @@ package miniplc0java.tokenizer;
 
 import miniplc0java.error.TokenizeError;
 import miniplc0java.error.ErrorCode;
+import miniplc0java.util.Pos;
 
 public class Tokenizer {
 
@@ -47,7 +48,13 @@ public class Tokenizer {
         // 解析成功则返回无符号整数类型的token，否则返回编译错误
         //
         // Token 的 Value 应填写数字的值
-        throw new Error("Not implemented");
+        Pos startPos = it.currentPos();
+        StringBuilder str = new StringBuilder();
+        while(Character.isDigit(it.peekChar())) {
+            str.append(it.nextChar());
+        }
+        Long value = Long.parseLong(str.toString());
+        return new Token(TokenType.Uint, value, startPos, it.currentPos());
     }
 
     private Token lexIdentOrKeyword() throws TokenizeError {
@@ -60,7 +67,20 @@ public class Tokenizer {
         // -- 否则，返回标识符
         //
         // Token 的 Value 应填写标识符或关键字的字符串
-        throw new Error("Not implemented");
+        Pos startPos = it.currentPos();
+        StringBuilder str = new StringBuilder();
+        while(Character.isDigit(it.peekChar()) || Character.isAlphabetic(it.peekChar())) {
+            str.append(it.nextChar());
+        }
+        String token = str.toString();
+        switch (token) {
+            case "begin": return new Token(TokenType.Begin, token, startPos, it.currentPos());
+            case "end": return new Token(TokenType.End, token, startPos, it.currentPos());
+            case "const": return new Token(TokenType.Const, token, startPos, it.currentPos());
+            case "var": return new Token(TokenType.Var, token, startPos, it.currentPos());
+            case "print": return new Token(TokenType.Print, token, startPos, it.currentPos());
+        }
+        return new Token(TokenType.Ident, token, startPos, it.currentPos());
     }
 
     private Token lexOperatorOrUnknown() throws TokenizeError {
