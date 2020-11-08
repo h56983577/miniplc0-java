@@ -444,7 +444,7 @@ public final class Analyser {
             instructions.add(new Instruction(Operation.LOD, offset));
         } else if (check(TokenType.Uint)) {
             // 是整数
-            var nameToken = expect(TokenType.Ident);
+            var nameToken = expect(TokenType.Uint);
             // 加载整数值
             int value = (Integer) nameToken.getValue();
             instructions.add(new Instruction(Operation.LIT, value));
