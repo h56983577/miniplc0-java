@@ -53,7 +53,7 @@ public class Tokenizer {
         while(Character.isDigit(it.peekChar())) {
             str.append(it.nextChar());
         }
-        Long value = Long.parseLong(str.toString());
+        Integer value = Integer.parseInt(str.toString());
         return new Token(TokenType.Uint, value, startPos, it.currentPos());
     }
 
