@@ -461,6 +461,8 @@ public final class Analyser {
 
         if (negate) {
             instructions.add(new Instruction(Operation.SUB));
+        } else {
+            instructions.add(new Instruction(Operation.ADD));
         }
     }
 }
